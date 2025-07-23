@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ask E-commerce Agent</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #f3faff 60%, #ddefff 100%);
+            margin: 0; padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            background: #fff;
+            margin: 50px auto;
+            padding: 2.5em 2em 2em 2em;
+            box-shadow: 0 8px 28px -10px rgba(100,120,220,0.15);
+            border-radius: 12px;
+        }
+        h2 {
+            text-align: center;
+            color: #0177b7;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 1em;
+        }
+        label {
+            font-weight: 600;
+        }
+        textarea {
+            width: 100%;
+            min-height: 36px;
+            font-size: 1em;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #bcd;
+            margin-top: 4px;
+            margin-bottom: 8px;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #0177b7;
+            background: #f3faff;
+        }
+        .ask-btn {
+            float: right;
+            padding: 0.7em 1.8em;
+            font-size: 1.05em;
+            color: #fff;
+            background: linear-gradient(90deg, #0177b7 60%, #12d8fa 100%);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 18px -8px #0177b7a4;
+            transition: background 0.1s, box-shadow 0.2s;
+        }
+        .ask-btn:hover {
+            background: linear-gradient(90deg, #0167a7 50%, #089ee1 100%);
+            box-shadow: 0 4px 22px -10px #0177b7a8;
+        }
+        #answer {
+            margin-top: 2em;
+            background: #f6fbeb;
+            padding: 1.3em 1em;
+            border-radius: 10px;
+            border: 1px solid #d4efd5;
+            white-space: pre-wrap;
+            min-height: 40px;
+            box-shadow: 0 2px 10px -8px #92ba65cc;
+        }
+        pre {
+            margin: 0.2em 0 0.5em 0;
+            background: #f4f5fa;
+            border-left: 2px solid #0177b7;
+            border-radius: 4px;
+            padding: 0.4em 0.8em;
+            color: #234;
+            font-size: 1em;
+            overflow-x: auto;
+        }
+        @media (max-width: 700px) {
+            .container {max-width: 96%; padding: 1.2em;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>E-commerce AI Agent</h2>
+        <form id="askForm" autocomplete="off">
+            <label for="question">Question:</label>
+            <textarea id="question" placeholder="e.g. Which product had the highest CPC?" required></textarea>
+            <button class="ask-btn" type="submit">Submit</button>
+            <div style="clear:both"></div>
+        </form>
+        <div id="answer"></div>
+    </div>
+    <script>
+    document.getElementById("askForm").onsubmit = async function(event) {
+        event.preventDefault();
+        document.getElementById("answer").innerHTML = "Thinking...";
+        const question = document.getElementById("question").value;
+        try {
+            const resp = await fetch("/ask", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({question})
+            });
+            const data = await resp.json();
+            document.getElementById("answer").innerHTML =
+                `<b>SQL:</b> <pre>${data.sql}</pre><b>Answer:</b> <pre>${JSON.stringify(data.answer, null, 2)}</pre>`;
+        } catch (error) {
+            document.getElementById("answer").innerText = "Error: " + error;
+        }
+    };
+    </script>
+</body>
+</html>
