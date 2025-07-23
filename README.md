@@ -38,7 +38,6 @@ cd ecommerce-ai-agent
 
 ### 2. **(Optional) Set Up Python Virtual Environment**
 
-**Note:** Never upload your `venv` folder to GitHub. Each user creates it locally.
 
 ```sh
 python -m venv venv
@@ -114,11 +113,7 @@ Send a POST to `/ask` with:
 | `data/ecommerce.db`          | Your SQLite database                 |
 | `requirements.txt`           | List of Python dependencies          |
 
-## ⚡ Deployment/Production Tips
 
-- You do **not** upload or track your Python `venv` folder or any local environment files in GitHub—every collaborator creates their own.
-- Never commit real API keys or production secrets (use `.env` files, add to `.gitignore`).
-- For sharing demos, provide a sample database or clear instructions for data import.
 
 ## 💬 Example Questions
 
@@ -129,17 +124,9 @@ Try these in the web UI or API:
 - How many products are currently eligible?
 - Which product had the highest number of impressions?
 
-## 📺 Demo
 
-To submit for grading or share your project:
-- Record a terminal demo showing API/web interactions
-- Show the answers for key business questions
-- Push code/README/videos to your GitHub
 
 ## 📝 FAQ
-
-**Q: Why not upload `venv`?**  
-A: The virtualenv is local to your computer (contains OS-dependent binaries and lots of cache). Each user builds it themselves from `requirements.txt`.
 
 **Q: Can I switch LLMs?**  
 A: Yes—just change the model name in `llm/ollama_client.py` and pull the model using `ollama pull model_name`.
